@@ -1,0 +1,9 @@
+#field-button {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#remove-field {
+  margin-right: 1rem;
+}
