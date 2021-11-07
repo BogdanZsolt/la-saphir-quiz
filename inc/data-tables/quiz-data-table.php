@@ -3,10 +3,10 @@
 
 function set_ls_quiz_columns($columns) {
 	$columns = array(
-		'title'                 => __( 'Question', 'lasaphire' ),
-		'question_index'        => __( 'Question Index', 'lasaphire' ),
-		'quiz_categories'       => __( 'Categories', 'lasaphire' ),
-		'date'                  => __( 'Date', 'lasaphire' ),
+		'title'                 => __( 'Question', 'lsquiz' ),
+		'question_index'        => __( 'Question Index', 'lsquiz' ),
+		'quiz_categories'  					=> __( 'Categories', 'lsquiz' ),
+		'date'                  => __( 'Date', 'lsquiz' ),
 	);
 	return $columns;
 }

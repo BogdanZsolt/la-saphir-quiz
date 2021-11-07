@@ -1,5 +1,17 @@
 <?php
 
+/*
+* Gutemberg editor disable
+*/
+// add_filter( 'use_block_editor_for_post', '__return_false' );
+
+/*
+* Gutemberg editor disable on ls_quiz custom post type
+*/
+add_filter( 'use_block_editor_for_post_type', function( $enabled, $post_type ) {
+    return 'ls_quiz' === $post_type ? false : $enabled;
+}, 10, 2 );
+
 /**
  * La Saphire - Create Question Custom Post Type
 */
@@ -7,31 +19,31 @@ function lsq_post_type(){
 
 	// Lasaphire Quiz CPT
 	$quiz_labels = array(
-		'name'                  => __( 'Questions', 'lasaphire' ),
-		'singular_name'         => __( 'Question', 'lasaphire' ),
-		'menu_name'             => __( 'Quiz', 'lasaphire' ),
-		'name_admin_bar'        => __( 'Question', 'lasaphire' ),
-		'add_new'               => __( 'Add New ', 'lasaphire' ),
-		'add_new_item'          => __( 'Add New Question', 'lasaphire' ),
-		'all_items'			    						=> __( 'All Questions', 'lasaphire' ),
-		'search_items'		    				=> __( 'Search Questions', 'lasaphire' ),
-		'not_found'             => __( 'No Question Found', 'lasaphire' ),
-		'not_found_in_trash'    => __( 'No Question in Trash', 'lasaphire' ),
-		'featured_image'        => __( 'Question Cover Image', 'lasaphire' ),
-		'set_featured_image'    => __( 'Set cover image', 'lasaphire' ),
-		'remove_featured_image'	=> __( 'Remove cover image', 'lasaphire' ),
-		'use_featured_image'				=> __( 'Use as cover image', 'lasaphire' ),
-		'archives'														=> __( 'Question archives', 'lasaphire' ),
-		'insert_into_item'						=> __( 'Insert into question', 'lasaphire' ),
-		'uploaded_to_this_item'	=> __( 'Uploaded to this question', 'lasaphire' ),
-		'filter_items_list'					=> __( 'Filter question list', 'lasaphire' ),
-		'items_list_navigation'	=> __( 'Questions list navigation', 'lasaphire' ),
-		'items_list'												=> __( 'Questions list', 'lasaphire' ),
-		'new_item'              => __( 'New Question', 'lasaphire' ),
-		'all_items'             => __( 'All Questions', 'lasaphire' ),
-		'edit_item'             => __( 'Edit Question', 'lasaphire' ),
-		'view_item'             => __( 'View Question', 'lasaphire' ),
-		'search_items'          => __( 'Search Questions', 'lasaphire' ),
+		'name'                  => __( 'Questions', 'lsquiz' ),
+		'singular_name'         => __( 'Question', 'lsquiz' ),
+		'menu_name'             => __( 'Quiz', 'lsquiz' ),
+		'name_admin_bar'        => __( 'Question', 'lsquiz' ),
+		'add_new'               => __( 'Add New ', 'lsquiz' ),
+		'add_new_item'          => __( 'Add New Question', 'lsquiz' ),
+		'all_items'			    						=> __( 'All Questions', 'lsquiz' ),
+		'search_items'		    				=> __( 'Search Questions', 'lsquiz' ),
+		'not_found'             => __( 'No Question Found', 'lsquiz' ),
+		'not_found_in_trash'    => __( 'No Question in Trash', 'lsquiz' ),
+		'featured_image'        => __( 'Question Cover Image', 'lsquiz' ),
+		'set_featured_image'    => __( 'Set cover image', 'lsquiz' ),
+		'remove_featured_image'	=> __( 'Remove cover image', 'lsquiz' ),
+		'use_featured_image'				=> __( 'Use as cover image', 'lsquiz' ),
+		'archives'														=> __( 'Question archives', 'lsquiz' ),
+		'insert_into_item'						=> __( 'Insert into question', 'lsquiz' ),
+		'uploaded_to_this_item'	=> __( 'Uploaded to this question', 'lsquiz' ),
+		'filter_items_list'					=> __( 'Filter question list', 'lsquiz' ),
+		'items_list_navigation'	=> __( 'Questions list navigation', 'lsquiz' ),
+		'items_list'												=> __( 'Questions list', 'lsquiz' ),
+		'new_item'              => __( 'New Question', 'lsquiz' ),
+		'all_items'             => __( 'All Questions', 'lsquiz' ),
+		'edit_item'             => __( 'Edit Question', 'lsquiz' ),
+		'view_item'             => __( 'View Question', 'lsquiz' ),
+		'search_items'          => __( 'Search Questions', 'lsquiz' ),
 	);
 
  $quiz_args = array(
@@ -50,6 +62,7 @@ function lsq_post_type(){
 		'menu_position'         => null,
 		'supports'              => array( 'title', 'editor' ),
 		'menu_icon' 												=> 'dashicons-clipboard',
+		'taxonomies'												=> array( 'quiz_categories' ),
 	);
 
  register_post_type( 'ls_quiz', $quiz_args );
@@ -57,22 +70,23 @@ function lsq_post_type(){
 add_action( 'init', 'lsq_post_type' );
 
 // La Saphire Quiz - Create taxonomies
-
 function lsq_create_taxonomies() {
+
 	register_taxonomy(
 		'quiz_categories',
 		'ls_quiz',
 		array(
-			'labels' => array(
-				'name' => __( 'Quiz Category', 'lasaphire' ),
-				'add_new_item' => __( 'Add New Quiz Category', 'lasaphire' ),
-				'new_item_name' => __( 'New Quiz Category', 'lasaphire' )
-			),
-			'show_ui' => true,
+		'labels' => array(
+			'name' 									=> __( 'Category', 'lasaphire' ),
+			'add_new_item' 	=> __( 'Add New Category', 'lasaphire' ),
+			'new_item_name' => __( 'New Category', 'lasaphire' )
+		),
+			'show_ui' 						=> true,
 			'show_tagcloud' => false,
-			'hierarchical' => true
+			'hierarchical' 	=> true,
+			'show_in_rest'		=> true,
+			'rewrite'							=> array( 'slug' => 'quiz_categories'),
 		)
 	);
 }
-add_action( 'init', 'lsq_create_taxonomies', 0 );
-
+add_action( 'init', 'lsq_create_taxonomies' );

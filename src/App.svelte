@@ -2,7 +2,7 @@
 
 <h1>Hello!</h1>
 
-<style>
+<style global lang="scss">
   h1 {
     color: #ff3e00;
     text-transform: uppercase;
