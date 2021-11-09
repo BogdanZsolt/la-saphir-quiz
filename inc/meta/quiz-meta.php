@@ -17,7 +17,7 @@ function lsq_custom_box(){
 add_action( 'add_meta_boxes', 'lsq_custom_box' );
 
 function lsq_custom_rest(){
-	register_rest_field( 'ls_quiz', 'quiz_categories', array(
+	register_rest_field( 'ls_quiz', 'categories', array(
 		'get_callback' => function(){return get_the_terms( get_the_ID(), 'quiz_categories');}
 	));
 

@@ -1,12 +1,13 @@
-<script></script>
+<script>
+  import QuizList from "./components/QuizList.svelte";
+</script>
 
-<h1>Hello!</h1>
+<QuizList />
 
 <style global lang="scss">
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
+  h3 {
+    font-size: 1.5rem;
+    color: purple;
+    font-weight: 200;
   }
 </style>
