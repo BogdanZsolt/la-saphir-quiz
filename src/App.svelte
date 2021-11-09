@@ -1,13 +1,22 @@
 <script>
-  import QuizList from "./components/QuizList.svelte";
+  import { Tabs, TabList, TabPanel, Tab } from "./components/tabs";
+  import categories from "./stores/categories";
+  import quiz from "./stores/quiz";
+  import Loading from "./Loading.svelte";
 </script>
 
-<QuizList />
+<Tabs>
+  <TabList>
+    {#each $categories as tab}
+      <Tab>{tab}</Tab>
+    {:else}
+      <Loading />
+    {/each}
+  </TabList>
 
-<style global lang="scss">
-  h3 {
-    font-size: 1.5rem;
-    color: purple;
-    font-weight: 200;
-  }
-</style>
+  {#each $categories as tab}
+    <TabPanel>
+      <h2>{tab} panel</h2>
+    </TabPanel>
+  {/each}
+</Tabs>

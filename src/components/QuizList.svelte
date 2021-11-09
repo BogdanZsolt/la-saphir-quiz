@@ -1,51 +1,29 @@
 <script>
-  import { onMount } from "svelte";
-
-  const flattenQuiz = (data) => {
-    return data.map((item) => {
-      let categories = [];
-      item.categories.forEach((element) => {
-        categories.push(element.name);
-      });
-      console.log("categories:", categories);
-      let answer = [];
-      let answers = [];
-      let question = item.title.rendered;
-      for (let i = 0; i < item.answers.length; i++) {
-        answer["answer"] = item.answers[i];
-        answer["reaction"] = item.reactions[i];
-        answers.push(answer);
-        answer = [];
-      }
-      return { question, answers, categories };
-    });
-  };
-
-  let data = [];
-  const loadQuiz = async () => {
-    const res = await fetch("http://quiztest.local/wp-json/wp/v2/ls_quiz");
-    const json = await res.json();
-    console.log("loadQuiz json:", json);
-    const data = flattenQuiz([...json]);
-    console.log("loadQuiz data:", data);
-    return data;
-  };
+  import quiz from "../stores/quiz";
+  import Loading from "../Loading.svelte";
 </script>
 
 <ul>
-  {#await loadQuiz()}
-    loading...
-  {:then data}
-    {#each data as item}
-      <h3 class="title">{item.question}</h3>
-      {#each item.answers as answer}
-        <p class="answer">{answer.answer}</p>
-        <p class="reaction">{answer.reaction}</p>
-      {/each}
+  {#each $quiz as item}
+    <h3 class="title">{item.question}</h3>
+    <p>
+      Select
+      {#if item.number_of_choices > 1}
+        up to {item.number_of_choices}
+        options
+      {:else}
+        {item.number_of_choices}
+        option
+      {/if}
+    </p>
+
+    {#each item.answers as answer}
+      <h4 class="answer">{answer.answer}</h4>
+      <h5 class="reaction">{answer.reaction}</h5>
     {/each}
-  {:catch error}
-    <p>something went wrong: {error.message}</p>
-  {/await}
+  {:else}
+    <Loading />
+  {/each}
 </ul>
 
 <style global lang="scss">
